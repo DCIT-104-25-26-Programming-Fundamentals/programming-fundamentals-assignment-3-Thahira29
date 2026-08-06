@@ -58,5 +58,73 @@
 // =============================================================================
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+
+function isPositiveInteger(value) {
+  const trimmed = value.trim();
+  if (trimmed === "") return false;
+  const num = Number(trimmed);
+  return Number.isInteger(num) && num > 0;
+}
+
+
+function printSingleTable(num) {
+  console.log(`Multiplication Table for ${num}:`);
+  for (let i = 1; i <= 12; i++) {
+    const product = num * i;
+    const multiplier = String(i).padStart(2, " ");
+    const result = String(product).padStart(3, " ");
+    console.log(`${num}  x  ${multiplier}  =  ${result}`);
+  }
+}
+
+
+function printTablesUpToN(n) {
+  for (let current = 1; current <= n; current++) {
+    printSingleTable(current);
+    if (current !== n) {
+      console.log("-".repeat(29));
+    }
+  }
+}
+
+
+function main() {
+  rl.question("Enter a number for its multiplication table: ", (answerA) => {
+    if (!isPositiveInteger(answerA)) {
+      console.log("Error: Please enter a positive integer.");
+      rl.close();
+      return;
+    }
+    const num = parseInt(answerA, 10);
+    console.log(""); // spacing
+    printSingleTable(num);
+
+    console.log(""); // spacing before Part B
+    rl.question(
+      "\nEnter N to print tables from 1 to N: ",
+      (answerB) => {
+        if (!isPositiveInteger(answerB)) {
+          console.log("Error: Please enter a positive integer.");
+          rl.close();
+          return;
+        }
+        const n = parseInt(answerB, 10);
+        console.log("");
+        printTablesUpToN(n);
+        rl.close();
+      }
+    );
+  });
+}
+
+main();
+
 
 
