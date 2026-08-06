@@ -73,5 +73,106 @@
 // =============================================================================
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
+const readlineSync = require('readline-sync');
+
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  if (b === 0) {
+    throw new Error('Cannot divide by zero.');
+  }
+  return a / b;
+}
+
+function modulus(a, b) {
+  if (b === 0) {
+    throw new Error('Cannot divide by zero.');
+  }
+  return a % b;
+}
+
+function exponentiate(a, b) {
+  return a ** b;
+}
+
+
+function printMenu() {
+  console.log('============================');
+  console.log('     SIMPLE CALCULATOR');
+  console.log('============================');
+  console.log('1. Addition');
+  console.log('2. Subtraction');
+  console.log('3. Multiplication');
+  console.log('4. Division');
+  console.log('5. Modulus');
+  console.log('6. Exponentiation');
+  console.log('7. Quit');
+}
+
+function getNumber(promptText) {
+  while (true) {
+    const input = readlineSync.question(promptText);
+    const value = parseFloat(input);
+    if (!isNaN(value) && input.trim() !== '') {
+      return value;
+    }
+    console.log('Invalid number. Please try again.');
+  }
+}
+
+const operations = {
+  '1': { symbol: '+', fn: add },
+  '2': { symbol: '-', fn: subtract },
+  '3': { symbol: '*', fn: multiply },
+  '4': { symbol: '/', fn: divide },
+  '5': { symbol: '%', fn: modulus },
+  '6': { symbol: '**', fn: exponentiate },
+};
+
+
+function main() {
+  let running = true;
+
+  while (running) {
+    printMenu();
+    const choice = readlineSync.question('Select an operation (1-7): ').trim();
+
+    if (choice === '7') {
+      console.log('Goodbye!');
+      running = false;
+      continue;
+    }
+
+    const operation = operations[choice];
+
+    if (!operation) {
+      console.log('Invalid choice. Please select a number between 1 and 7.\n');
+      continue;
+    }
+
+    const num1 = getNumber('Enter first number : ');
+    const num2 = getNumber('Enter second number: ');
+
+    try {
+      const result = operation.fn(num1, num2);
+      console.log(`Result: ${num1} ${operation.symbol} ${num2} = ${result.toFixed(2)}\n`);
+    } catch (error) {
+      console.log(`Error: ${error.message}\n`);
+    }
+  }
+}
+
+main();
+
 
 
