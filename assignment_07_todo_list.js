@@ -80,5 +80,95 @@
 // =============================================================================
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
+const readlineSync = require("readline-sync");
+
+let tasks = [];
+
+function showMenu() {
+  console.log("\n============================");
+  console.log("     TO-DO LIST MENU");
+  console.log("============================");
+  console.log("1. Add task");
+  console.log("2. View tasks");
+  console.log("3. Delete task");
+  console.log("4. Quit");
+}
+
+function addTask() {
+  const task = readlineSync.question("Enter task: ").trim();
+
+  if (task === "") {
+    console.log("Task cannot be empty. Nothing was added.");
+    return;
+  }
+
+  tasks.push(task);
+  console.log(`Task added: "${task}"`);
+}
+
+function viewTasks() {
+  if (tasks.length === 0) {
+    console.log("Your task list is empty.");
+    return;
+  }
+
+  console.log("Your Tasks:");
+  tasks.forEach((task, index) => {
+    console.log(`${index + 1}. ${task}`);
+  });
+}
+
+function deleteTask() {
+  if (tasks.length === 0) {
+    console.log("There are no tasks to delete.");
+    return;
+  }
+
+  viewTasks();
+  const choice = readlineSync.question("Enter task number to delete: ");
+  const index = parseInt(choice, 10) - 1;
+
+  if (isNaN(index) || index < 0 || index >= tasks.length) {
+    console.log("Invalid task number. Please try again.");
+    return;
+  }
+
+  const removed = tasks.splice(index, 1)[0];
+  console.log(`Task "${removed}" has been removed.`);
+}
+
+function quit() {
+  console.log("Goodbye!");
+}
+
+function main() {
+  let running = true;
+
+  while (running) {
+    showMenu();
+    const choice = readlineSync.question("Enter your choice (1-4): ");
+
+    switch (choice) {
+      case "1":
+        addTask();
+        break;
+      case "2":
+        viewTasks();
+        break;
+      case "3":
+        deleteTask();
+        break;
+      case "4":
+        quit();
+        running = false;
+        break;
+      default:
+        console.log("Invalid choice. Please enter a number between 1 and 4.");
+    }
+  }
+}
+
+main();
+
 
 
