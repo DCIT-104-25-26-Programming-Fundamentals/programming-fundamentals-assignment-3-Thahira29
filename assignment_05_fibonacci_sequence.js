@@ -54,4 +54,64 @@
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
 
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function printFirstNTerms(n) {
+  if (!Number.isInteger(n) || n <= 0) {
+    console.log("Error: N must be a positive integer.");
+    return;
+  }
+
+  const sequence = [];
+  let a = 0, b = 1;
+
+  for (let i = 0; i < n; i++) {
+    sequence.push(a);
+    const next = a + b;
+    a = b;
+    b = next;
+  }
+
+  console.log("Fibonacci sequence: " + sequence.join(" "));
+}
+
+function isFibonacciNumber(num) {
+  if (num < 0) return false;
+
+  let a = 0, b = 1;
+
+  while (a <= num) {
+    if (a === num) return true;
+    const next = a + b;
+    a = b;
+    b = next;
+  }
+
+  return false;
+}
+
+rl.question("How many terms? ", (answerN) => {
+  const n = parseInt(answerN, 10);
+  printFirstNTerms(n);
+
+  rl.question("Enter a number to check: ", (answerNum) => {
+    const num = parseInt(answerNum, 10);
+
+    if (isNaN(num)) {
+      console.log("Error: Please enter a valid number.");
+    } else if (isFibonacciNumber(num)) {
+      console.log(`${num} is a Fibonacci number.`);
+    } else {
+      console.log(`${num} is NOT a Fibonacci number.`);
+    }
+
+    rl.close();
+  });
+});
+
 
